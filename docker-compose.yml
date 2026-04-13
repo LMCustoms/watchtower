@@ -3,7 +3,7 @@ services:
     image: containrrr/watchtower
     container_name: watchtower
     restart: unless-stopped
-    command: --interval ${WATCHTOWER_POLL_INTERVAL:-300} --http-api-periodic-polls
+    command: --interval ${WATCHTOWER_POLL_INTERVAL:-300} --http-api-periodic-polls --no-startup-message
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${DOCKER_CONFIG_PATH:-/root/.docker/config.json}:/config.json:ro
@@ -20,6 +20,7 @@ services:
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT:-587}
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}
+      - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
     ports:
       - "127.0.0.1:${WATCHTOWER_PORT:-8081}:8080"
     networks:
